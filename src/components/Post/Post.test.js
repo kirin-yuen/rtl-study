@@ -1,4 +1,5 @@
 import { findByAltText, render, screen, waitFor, findByRole, waitForElementToBeRemoved } from "@testing-library/react";
+import { GraphQLError } from "graphql";
 import { MockedProvider } from "@apollo/client/testing";
 import Post, { POST_QUERY } from ".";
 
@@ -18,7 +19,7 @@ const mocks = [
   },
 ];
 
-const MockPost = ({ mocks, postProps }) => {
+const MockPost = ({ mocks, postProps = { id: 2 } }) => {
   return (
     <MockedProvider addTypename={false} mocks={mocks}>
       <Post {...postProps} />
@@ -27,7 +28,7 @@ const MockPost = ({ mocks, postProps }) => {
 };
 
 test("should mock data response", async () => {
-  render(<MockPost mocks={mocks} postProps={{ id: 2 }} />);
+  render(<MockPost mocks={mocks} />);
 
   // 第一种方法：使用 waitForElementToBeRemoved
   // await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
@@ -41,6 +42,18 @@ test("should mock data response", async () => {
   const heading = await screen.findByRole("heading");
   // const heading = await findByRole(container, "heading");
   expect(heading).toBeInTheDocument();
+
+  screen.debug();
+});
+
+test("should mock data error occur", async () => {
+  const errorMocks = { ...mocks[0] };
+  errorMocks.result.errors = [new GraphQLError("Error!")];
+
+  render(<MockPost mocks={[errorMocks]} />);
+
+  const errorDom = await screen.findByText(/error/i);
+  expect(errorDom).toBeInTheDocument();
 
   screen.debug();
 });
