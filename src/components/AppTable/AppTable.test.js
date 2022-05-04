@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { screen, render, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { debugTool } from "../../setupTests";
 import AppTable from ".";
 let tableRef;
 
@@ -57,5 +58,12 @@ describe("MockAppTable component initial", () => {
 
     // 渲染表格后没有记录的元素会消失
     expect(queryNoDisplayElement()).not.toBeInTheDocument();
+  });
+
+  test("should <Title /> render", async () => {
+    render(<MockAppTable />);
+
+    const titleElement = await screen.findByText("Title");
+    expect(titleElement).toBeInTheDocument();
   });
 });
