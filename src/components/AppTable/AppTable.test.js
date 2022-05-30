@@ -1,6 +1,13 @@
 import React, { useRef } from "react";
-import { screen, render, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
-import { debugTool } from "../../setupTests";
+import {
+  screen,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+  fireEvent,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { debugTool, sleep } from "../../setupTests";
 import AppTable from ".";
 let tableRef;
 
@@ -29,7 +36,9 @@ const MockAppTable = (props) => {
     ];
   }
 
-  return <AppTable data={data} columns={columns} tableRef={tableRef}></AppTable>;
+  return (
+    <AppTable data={data} columns={columns} tableRef={tableRef}></AppTable>
+  );
 };
 
 const renderTableAfter = async () => {

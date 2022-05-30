@@ -30,17 +30,31 @@ const MockPost = ({ mocks, postProps = { id: 2 } }) => {
 test("should mock data response", async () => {
   render(<MockPost mocks={mocks} />);
 
-  // 第一种方法：使用 waitForElementToBeRemoved
+  // waitForElement 已废弃
+  // await waitForElement(() => {});
+
+  // 第一种方法：额外安装依赖包 waitForExpect 
+  // timeout interval 配置多少都没有用
+  // waitForExpect.defaults.timeout = 10000;
+  // waitForExpect.defaults.interval = 10000;
+
+  // waitForExpect 需要加入 timeout 调整时间 100 毫秒后才可以出来
+  // await waitForExpect(async () => {
+  // 延时
+  //   await new Promise((resolve) => setTimeout(resolve, 100));
+  // });
+
+  // 第二种方法：使用 waitForElementToBeRemoved
   // await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
   // expect(screen.queryByText(/loading/i)).toBeFalsy();
 
-  // 第二种方法：使用 waitFor
+  // 第三种方法：使用 waitFor
   // const heading = await waitFor(() => screen.getByRole("heading"));
   // expect(heading).toBeInTheDocument();
 
-  // 第三种方法：使用 findByxxx
+  // 第四种方法：使用 findByxxx
   const heading = await screen.findByRole("heading");
-  // const heading = await findByRole(container, "heading");
+  // const heading = await findByRole(container, "heading"); // 依赖包直接导出查找元素方法
   expect(heading).toBeInTheDocument();
 
   screen.debug();
