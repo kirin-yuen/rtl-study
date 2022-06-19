@@ -1,22 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default function ToggleThemeButton() {
-  return (
-    <ThemeContext.Consumer>
-      {(context) => {
-        return (
-          <button
-            onClick={() => {
-              const { isLightTheme, setIsLightTheme } = context;
+  const { isLightTheme, setIsLightTheme } = useContext(ThemeContext);
 
-              setIsLightTheme(!isLightTheme);
-            }}
-          >
-            Toggle Theme
-          </button>
-        );
+  return (
+    <button
+      onClick={() => {
+        setIsLightTheme(!isLightTheme);
       }}
-    </ThemeContext.Consumer>
+    >
+      Toggle Theme
+    </button>
   );
 }
