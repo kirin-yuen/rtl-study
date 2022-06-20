@@ -1,14 +1,17 @@
-import React, { createContext, useReducer } from "react";
-import uuid from "uuid/v1";
+import React, { createContext, useReducer, useEffect } from "react";
 import { bookReducer } from "../reducers/bookReducer";
 
 export const BookContext = createContext();
 
 export default function BookContextProvider({ children }) {
-  const [books, dispatchBook] = useReducer(bookReducer, [
-    { title: "name of the wind", author: "patrick rothfuss", id: 1 },
-    { title: "the final empire", author: "brandon sanderson", id: 2 },
-  ]);
+  const [books, dispatchBook] = useReducer(
+    bookReducer,
+    JSON.parse(localStorage.getItem("books"))
+  );
+
+  useEffect(() => {
+    localStorage.setItem("books", JSON.stringify(books));
+  }, [books]);
 
   return (
     <BookContext.Provider
