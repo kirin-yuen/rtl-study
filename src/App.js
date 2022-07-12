@@ -1,5 +1,11 @@
+import PromiseStudy from "./components/Promise-Study";
+
 function App() {
-  return <div></div>;
+  return (
+    <div>
+      <PromiseStudy />
+    </div>
+  );
 }
 
 export default App;
