@@ -9,6 +9,7 @@ import React from "react";
 import About from "../components/About";
 import Products from "../components/Products";
 import Home from "../pages/Home";
+import AutoSave from "../pages/AutoSave";
 
 export default function AppRouter() {
   return (
@@ -18,6 +19,7 @@ export default function AppRouter() {
         <Link to="/about">About</Link>
         <Link to="/products">Products</Link>
         <Link to="/redirect">Test</Link>
+        <Link to="/autosave">Auto Save</Link>
       </div>
       {/* v6 Routes 取代 Switch */}
       <Routes>
@@ -37,6 +39,8 @@ export default function AppRouter() {
           path="/test"
           element={false ? <div>test1</div> : <div>test2</div>}
         />
+        {/* auto save */}
+        <Route path="/autosave" element={<AutoSave />} />
       </Routes>
     </Router>
   );
